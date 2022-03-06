@@ -1,8 +1,14 @@
-import React from "react";
+import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import Main from './components/Main';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-      <p className="text-2xl text-amber-700">hi</p>
+    <QueryClientProvider client={queryClient}>
+      <Main />
+    </QueryClientProvider>
   );
 }
 

@@ -4,18 +4,12 @@ const HOST = 'http://localhost:3000/api';
 const GET_COURSES = HOST + '/courses';
 const GET_SEARCH = HOST + '/search/courses';
 
-interface Error {
-  message: string;
-}
-
 async function fetchModule(url: string) {
   try {
     const response = await fetch(url);
     return response.json();
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
+    // 여기서 throw된 에러는 에러 바운더리 컴포넌트까지 전달
     throw new Error('에러발생');
   }
 }

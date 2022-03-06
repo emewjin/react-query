@@ -1,20 +1,21 @@
 import Card, { Course } from './Card';
 import { useQuery } from 'react-query';
 import { getCourses } from '../api';
-import { useEffect } from 'react';
 
 export default function Main() {
-  const { isLoading, isError, data } = useQuery(
+  const { isLoading, data } = useQuery(
     ['mainGetCourses'],
     async () => await getCourses({}),
     {
       retry: false,
+      useErrorBoundary: true,
+      meta: {
+        myMessage: '메인페이지',
+      },
     },
   );
 
   if (isLoading) return <div>Loading...</div>;
-
-  if (isError) return <div>error</div>;
 
   return (
     <main className="grid grid-cols-3 gap-3 gap-y-10 p-7">

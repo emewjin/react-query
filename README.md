@@ -39,7 +39,7 @@ useQuery(['todos'], fetchTodos, {
 })
 ```
 
-어쨌거나 그런 이유로 저 글을 쓴 리액트 쿼리 개발자는 글로벌 콜백을 이용하는 것을 추천한다고 함. 글로벌 콜백에선 defaultOption을 이용할 수도 있는데 ([화해팀의 방식](http://blog.hwahae.co.kr/all/tech/tech-tech/7867/)), 이것보다는 queryCache를 이용하는 것이 예상을 좀 더 쉽게 한다고 함.
+어쨌거나 그런 이유로 저 글을 쓴 리액트 쿼리 개발자는 글로벌 콜백을 이용하는 것을 추천한다고 함. 글로벌 콜백에선 defaultOption을 이용할 수도 있는데 ([화해팀의 방식](http://blog.hwahae.co.kr/all/tech/tech-tech/7867/)), 이것보다는 queryCache를 이용하는 것이 어떻게 다르고 뭐가 더 좋은지는 잘 모르겠음
 
 - defaultOption
 ```ts

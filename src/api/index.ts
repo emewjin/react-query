@@ -10,6 +10,7 @@ async function fetchModule(url: string) {
     return response.json();
   } catch (error) {
     // 여기서 throw된 에러는 에러 바운더리 컴포넌트까지 전달
+    console.log(error);
     throw new Error('에러발생');
   }
 }
@@ -32,9 +33,9 @@ export const getCourses = async ({
     search,
   });
   const {
-    data: { courses },
+    data: { courses, page: pageNumber },
   } = await fetchModule(`${GET_COURSES}?${queryString}`);
-  return courses;
+  return { pageNumber, courses };
 };
 
 export const search = async (keyword: string, max = 10) => {

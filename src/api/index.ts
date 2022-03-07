@@ -1,17 +1,31 @@
 import { stringify } from 'query-string';
 
-const HOST = 'http://localhost:3000/api';
-const GET_COURSES = HOST + '/courses';
-const GET_SEARCH = HOST + '/search/courses';
+const HOST = 'http://localhost:3000';
+const COURSES = HOST + '/api/courses';
+const SEARCH = HOST + '/api/search/courses';
 
-async function fetchModule(url: string) {
+async function fetchModule(url: string, data?: any) {
   try {
-    const response = await fetch(url);
-    return response.json();
+    const response = await fetch(
+      url,
+      data
+        ? {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          }
+        : {},
+    );
+    const { ok, ...rest } = await response.json();
+    if (!ok) {
+      throw new Error(rest.error.message);
+    }
+    return rest;
   } catch (error) {
     // 여기서 throw된 에러는 에러 바운더리 컴포넌트까지 전달
     console.log(error);
-    throw new Error('에러발생');
   }
 }
 
@@ -34,7 +48,7 @@ export const getCourses = async ({
   });
   const {
     data: { courses, page: pageNumber },
-  } = await fetchModule(`${GET_COURSES}?${queryString}`);
+  } = await fetchModule(`${COURSES}?${queryString}`);
   return { pageNumber, courses };
 };
 
@@ -45,6 +59,18 @@ export const search = async (keyword: string, max = 10) => {
   });
   const {
     data: { results },
-  } = await fetchModule(`${GET_SEARCH}?${queryString}`);
+  } = await fetchModule(`${SEARCH}?${queryString}`);
   return results;
+};
+
+export type TNewCourse = {
+  title: string;
+  price: number;
+};
+
+export const postCourse = async (newCourse: TNewCourse) => {
+  const {
+    data: { createdCourseId },
+  } = await fetchModule(COURSES, newCourse);
+  return createdCourseId;
 };
